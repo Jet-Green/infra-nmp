@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # === Настройки ===
-PROJECT_DIR="/opt/infra"                  # ← измени на свой реальный путь!
+PROJECT_DIR="~/infra-nmp"                  # ← измени на свой реальный путь!
 LOG_FILE="$PROJECT_DIR/deploy.log"
 DATE=$(date '+%Y-%m-%d %H:%M:%S')
 
