@@ -1,6 +1,7 @@
 [submodule "frontend"]
-	path = frontend
-	url = https://github.com/Jet-Green/nmp.git
+    path = frontend
+    url = git@github.com:Jet-Green/nmp.git
+
 [submodule "backend"]
-	path = backend
-	url = https://github.com/Jet-Green/nmp-backend.git
+    path = backend
+    url = git@github.com:Jet-Green/nmp-backend.git
