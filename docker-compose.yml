@@ -1,0 +1,45 @@
+version: "3.9"
+
+services:
+  frontend:
+    build: ./frontend
+    container_name: nuxt-frontend
+    restart: always
+    ports:
+      - "3010:3010"
+    env_file:
+      - .env.frontend
+    depends_on:
+      - backend
+    networks:
+      - web
+
+  backend:
+    build: ./backend
+    container_name: nest-backend
+    restart: always
+    ports:
+      - "3034:3034"
+    env_file:
+      - .env.backend
+    depends_on:
+      - mongo
+    networks:
+      - web
+      - db
+
+  mongo:
+    image: mongo:7
+    container_name: nmp-mongo
+    restart: always
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - db
+
+volumes:
+  mongo_data:
+
+networks:
+  web:
+  db:
