@@ -1,14 +1,15 @@
-version: "3.9"
-
 services:
   frontend:
     build: ./frontend
-    container_name: nuxt-frontend
+    container_name: nmp-frontend
     restart: always
+    # Наружу не торчит — трафик идёт через Caddy (nmp.firetechno.ru)
     ports:
-      - "3010:3010"
+      - "127.0.0.1:3068:3068"
     env_file:
       - .env.frontend
+    environment:
+      PORT: 3068
     depends_on:
       - backend
     networks:
@@ -16,12 +17,16 @@ services:
 
   backend:
     build: ./backend
-    container_name: nest-backend
+    container_name: nmp-backend
     restart: always
+    # Через Caddy (api.nmp.firetechno.ru)
     ports:
-      - "3034:3034"
+      - "127.0.0.1:3069:3069"
     env_file:
       - .env.backend
+    environment:
+      PORT: 3069
+      MONGO_URL: mongodb://mongo:27017/nmp
     depends_on:
       - mongo
     networks:
@@ -32,6 +37,8 @@ services:
     image: mongo:7
     container_name: nmp-mongo
     restart: always
+    # Машина общая и памяти мало — ограничиваем кэш WiredTiger
+    command: ["--wiredTigerCacheSizeGB", "0.25"]
     volumes:
       - mongo_data:/data/db
     networks:
