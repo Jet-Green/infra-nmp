@@ -26,6 +26,11 @@ docker compose build --pull
 log "🔄 (Re)starting services..."
 docker compose up -d --remove-orphans
 
+# 4. Миграции базы (migrate-mongo, идемпотентно)
+log "🗃  Applying migrations..."
+sleep 5
+docker compose exec -T backend npm run migrate:up 2>&1 | tee -a "$LOG_FILE"
+
 # 4. Чистка
 log "🧹 Pruning old images..."
 docker image prune -f
